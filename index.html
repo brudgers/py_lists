@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2017-03-12 Sun 17:31 -->
+<!-- 2017-03-12 Sun 18:51 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title></title>
@@ -232,17 +232,35 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org99bb9d1">Introduction</a>
+<li><a href="#orgfe5be13">Introduction</a>
 <ul>
-<li><a href="#orgd2c521f">copy_list</a></li>
+<li><a href="#orgf0b1069">Basic Semantics</a>
+<ul>
+<li><a href="#orge75c4ab">Destructive versus Non-Destructive</a></li>
+<li><a href="#orga7b6082">Matching value versus applied predicate</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org7784bd2">Helpers</a>
+<ul>
+<li><a href="#orgcd2d621">Operators</a></li>
+<li><a href="#org74a6f38">Identity</a></li>
+</ul>
+</li>
+<li><a href="#org9e5cfcb">Non-Destructive</a>
+<ul>
+<li><a href="#orgaae87c7">copy_list</a></li>
+<li><a href="#orgd564fdd">remove</a></li>
+<li><a href="#org9621d84">remove_if</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org99bb9d1" class="outline-2">
-<h2 id="org99bb9d1">Introduction</h2>
-<div class="outline-text-2" id="text-org99bb9d1">
+<div id="outline-container-orgfe5be13" class="outline-2">
+<h2 id="orgfe5be13">Introduction</h2>
+<div class="outline-text-2" id="text-orgfe5be13">
 <p>
 As I read Steele's <i>Common Lisp: The Language</i> I had a strong sense of the way in which Common Lisp was developed in the context of Lisp machines. It makes for an interesting way of thinking about computing languages: as a way of using the computer rather than as a means for writing programs. The parallel I've been drawing is with Emacs Lisp primarily as a way of editing text (rather than writing programs).
 </p>
@@ -259,17 +277,93 @@ As I dug deeper into the <i>Common Lisp: The Language</i> the consistent constru
 The idea of data structures such as <code>list</code> or <code>sequence</code> living in user space feels radical today. But it seems simply a byproduct of decades of WIMP dominance &#x2013; years of familiarity and <i>ad hockery</i> means Bash pipes or Perl regex's feel normal parts of user space.
 </p>
 </div>
-
-<div id="outline-container-orgd2c521f" class="outline-3">
-<h3 id="orgd2c521f">copy_list</h3>
-<div class="outline-text-3" id="text-orgd2c521f">
+<div id="outline-container-orgf0b1069" class="outline-3">
+<h3 id="orgf0b1069">Basic Semantics</h3>
+<div class="outline-text-3" id="text-orgf0b1069">
+</div><div id="outline-container-orge75c4ab" class="outline-4">
+<h4 id="orge75c4ab">Destructive versus Non-Destructive</h4>
+</div>
+<div id="outline-container-orga7b6082" class="outline-4">
+<h4 id="orga7b6082">Matching value versus applied predicate</h4>
+<div class="outline-text-4" id="text-orga7b6082">
+<p>
+List functions ending
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org7784bd2" class="outline-2">
+<h2 id="org7784bd2">Helpers</h2>
+<div class="outline-text-2" id="text-org7784bd2">
+</div><div id="outline-container-orgcd2d621" class="outline-3">
+<h3 id="orgcd2d621">Operators</h3>
+<div class="outline-text-3" id="text-orgcd2d621">
+<p>
+Python does not allow passing operators such as <code>&lt;</code> or <code>+</code> as functions. Instead it provides the operators module which is included here to allow tests to be passed to list functions.
+</p>
+<div class="org-src-container">
+<pre class="src src-python">import operator
+less_than = operator.lt
+lt = operator.lt
+less_than_or_equal = operator.le
+le = operator.le
+equal = operator.eq
+eq = operator.eq
+non_equal = operator.ne
+ne = operator.ne
+greater_than_or_equal = operator.ge
+ge = operator.ge
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org74a6f38" class="outline-3">
+<h3 id="org74a6f38">Identity</h3>
+<div class="outline-text-3" id="text-org74a6f38">
+<p>
+Python does not have an identity function. Including one is not considered Pythonic and writing one's own is considered the Python way.
+</p>
+<div class="org-src-container">
+<pre class="src src-python">def identity(x):
+    return x
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org9e5cfcb" class="outline-2">
+<h2 id="org9e5cfcb">Non-Destructive</h2>
+<div class="outline-text-2" id="text-org9e5cfcb">
+</div><div id="outline-container-orgaae87c7" class="outline-3">
+<h3 id="orgaae87c7">copy_list</h3>
+<div class="outline-text-3" id="text-orgaae87c7">
 <p>
 To me, <code>copy-list</code> is where the idea of Common Lisp as a language for users really hit home. There were many idioms for copying a list in other lisp dialects. By abstracting over those, <code>copy-list</code> provides an explicit mechanism for users to express an intent to bypass destructive semantics.
 </p>
-
 <div class="org-src-container">
-<pre class="src src-python" id="orge3f2d2d">def copy_list(ls):
+<pre class="src src-python" id="org9884024">def copy_list(ls):
     return [i for i in ls]
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd564fdd" class="outline-3">
+<h3 id="orgd564fdd">remove</h3>
+<div class="outline-text-3" id="text-orgd564fdd">
+<div class="org-src-container">
+<pre class="src src-python">def remove(item, sequence, from_end=False, test=identity, test_not=False, start=False, end=False, count=False, key=identity):
+    return [i for i in sequence if not test(key(i)) == item]
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9621d84" class="outline-3">
+<h3 id="org9621d84">remove_if</h3>
+<div class="outline-text-3" id="text-org9621d84">
+<div class="org-src-container">
+<pre class="src src-python">def remove_if(pred, seq):
+    return [i for i in pred if not pred(i)]
 </pre>
 </div>
 </div>
@@ -278,7 +372,7 @@ To me, <code>copy-list</code> is where the idea of Common Lisp as a language for
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: benrudgers</p>
-<p class="date">Created: 2017-03-12 Sun 17:31</p>
+<p class="date">Created: 2017-03-12 Sun 18:51</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

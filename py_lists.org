@@ -8,12 +8,47 @@ There is another parallel to be drawn with command shells as ways of using a com
 As I dug deeper into the /Common Lisp: The Language/ the consistent construction of various =sequence= and =list= functions, it became apparent that this was a byproduct of the Lisp Machine context. Consistent user interface design is orthogonal to the form of the user interface. Command line, GUI, or programming language all have the same requirements.
 
 The idea of data structures such as =list= or =sequence= living in user space feels radical today. But it seems simply a byproduct of decades of WIMP dominance -- years of familiarity and /ad hockery/ means Bash pipes or Perl regex's feel normal parts of user space.
-
+** Basic Semantics
+*** Destructive versus Non-Destructive
+*** Matching value versus applied predicate
+List functions ending
+* Helpers
+** Operators
+Python does not allow passing operators such as =<= or =+= as functions. Instead it provides the operators module which is included here to allow tests to be passed to list functions.
+#+BEGIN_SRC python
+  import operator
+  less_than = operator.lt
+  lt = operator.lt
+  less_than_or_equal = operator.le
+  le = operator.le
+  equal = operator.eq
+  eq = operator.eq
+  non_equal = operator.ne
+  ne = operator.ne
+  greater_than_or_equal = operator.ge
+  ge = operator.ge
+#+END_SRC
+** Identity
+Python does not have an identity function. Including one is not considered Pythonic and writing one's own is considered the Python way.
+#+BEGIN_SRC python
+  def identity(x):
+      return x
+#+END_SRC
+* Non-Destructive
 ** copy_list
 To me, =copy-list= is where the idea of Common Lisp as a language for users really hit home. There were many idioms for copying a list in other lisp dialects. By abstracting over those, =copy-list= provides an explicit mechanism for users to express an intent to bypass destructive semantics.
-
 #+NAME: copy_list
 #+BEGIN_SRC python
   def copy_list(ls):
       return [i for i in ls]
+#+END_SRC
+** remove
+#+BEGIN_SRC python 
+  def remove(item, sequence, from_end=False, test=identity, test_not=False, start=False, end=False, count=False, key=identity):
+      return [i for i in sequence if not test(key(i)) == item]
+#+END_SRC
+** remove_if 
+#+BEGIN_SRC python 
+  def remove_if(pred, seq):
+      return [i for i in pred if not pred(i)]
 #+END_SRC
