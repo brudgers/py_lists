@@ -1,0 +1,19 @@
+#+PROPERTY: header-args  :tangle yes
+#+OPTIONS: num:nil ^:{}
+* Introduction
+As I read Steele's /Common Lisp: The Language/ I had a strong sense of the way in which Common Lisp was developed in the context of Lisp machines. It makes for an interesting way of thinking about computing languages: as a way of using the computer rather than as a means for writing programs. The parallel I've been drawing is with Emacs Lisp primarily as a way of editing text (rather than writing programs).
+
+There is another parallel to be drawn with command shells as ways of using a computer. It seems weaker. Compared with Common Lisp's explicit design process, Bash, MSDOS, and other shells are more /ad hoc/ aggregations of utilities rather than formal designs: =grep= & =find= & =cat= & =ls= & =cd= don't share a strong coherance. Knowing the options of one does not create strong intuitions into the others.
+
+As I dug deeper into the /Common Lisp: The Language/ the consistent construction of various =sequence= and =list= functions, it became apparent that this was a byproduct of the Lisp Machine context. Consistent user interface design is orthogonal to the form of the user interface. Command line, GUI, or programming language all have the same requirements.
+
+The idea of data structures such as =list= or =sequence= living in user space feels radical today. But it seems simply a byproduct of decades of WIMP dominance -- years of familiarity and /ad hockery/ means Bash pipes or Perl regex's feel normal parts of user space.
+
+** copy_list
+To me, =copy-list= is where the idea of Common Lisp as a language for users really hit home. There were many idioms for copying a list in other lisp dialects. By abstracting over those, =copy-list= provides an explicit mechanism for users to express an intent to bypass destructive semantics.
+
+#+NAME: copy_list
+#+BEGIN_SRC python
+  def copy_list(ls):
+      return [i for i in ls]
+#+END_SRC
