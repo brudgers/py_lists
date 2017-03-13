@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2017-03-12 Sun 18:51 -->
+<!-- 2017-03-12 Sun 21:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title></title>
@@ -232,35 +232,36 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgfe5be13">Introduction</a>
+<li><a href="#org03624e8">Introduction</a>
 <ul>
-<li><a href="#orgf0b1069">Basic Semantics</a>
+<li><a href="#orgd3ef4ce">Basic Semantics</a>
 <ul>
-<li><a href="#orge75c4ab">Destructive versus Non-Destructive</a></li>
-<li><a href="#orga7b6082">Matching value versus applied predicate</a></li>
+<li><a href="#orgcb2b043">Destructive versus Non-Destructive</a></li>
+<li><a href="#org684162f">Matching value versus applied predicate</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org7784bd2">Helpers</a>
+<li><a href="#org4f292c2">Helpers</a>
 <ul>
-<li><a href="#orgcd2d621">Operators</a></li>
-<li><a href="#org74a6f38">Identity</a></li>
+<li><a href="#org36fa5f1">Operators</a></li>
+<li><a href="#orgdcdb02f">Identity</a></li>
 </ul>
 </li>
-<li><a href="#org9e5cfcb">Non-Destructive</a>
+<li><a href="#org27676d7">Non-Destructive</a>
 <ul>
-<li><a href="#orgaae87c7">copy_list</a></li>
-<li><a href="#orgd564fdd">remove</a></li>
-<li><a href="#org9621d84">remove_if</a></li>
+<li><a href="#org7df8f3b">copy_list</a></li>
+<li><a href="#orga9e958b">local_iterate</a></li>
+<li><a href="#orge5e4ea1">remove</a></li>
+<li><a href="#org8e03611">remove_if</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgfe5be13" class="outline-2">
-<h2 id="orgfe5be13">Introduction</h2>
-<div class="outline-text-2" id="text-orgfe5be13">
+<div id="outline-container-org03624e8" class="outline-2">
+<h2 id="org03624e8">Introduction</h2>
+<div class="outline-text-2" id="text-org03624e8">
 <p>
 As I read Steele's <i>Common Lisp: The Language</i> I had a strong sense of the way in which Common Lisp was developed in the context of Lisp machines. It makes for an interesting way of thinking about computing languages: as a way of using the computer rather than as a means for writing programs. The parallel I've been drawing is with Emacs Lisp primarily as a way of editing text (rather than writing programs).
 </p>
@@ -277,15 +278,15 @@ As I dug deeper into the <i>Common Lisp: The Language</i> the consistent constru
 The idea of data structures such as <code>list</code> or <code>sequence</code> living in user space feels radical today. But it seems simply a byproduct of decades of WIMP dominance &#x2013; years of familiarity and <i>ad hockery</i> means Bash pipes or Perl regex's feel normal parts of user space.
 </p>
 </div>
-<div id="outline-container-orgf0b1069" class="outline-3">
-<h3 id="orgf0b1069">Basic Semantics</h3>
-<div class="outline-text-3" id="text-orgf0b1069">
-</div><div id="outline-container-orge75c4ab" class="outline-4">
-<h4 id="orge75c4ab">Destructive versus Non-Destructive</h4>
+<div id="outline-container-orgd3ef4ce" class="outline-3">
+<h3 id="orgd3ef4ce">Basic Semantics</h3>
+<div class="outline-text-3" id="text-orgd3ef4ce">
+</div><div id="outline-container-orgcb2b043" class="outline-4">
+<h4 id="orgcb2b043">Destructive versus Non-Destructive</h4>
 </div>
-<div id="outline-container-orga7b6082" class="outline-4">
-<h4 id="orga7b6082">Matching value versus applied predicate</h4>
-<div class="outline-text-4" id="text-orga7b6082">
+<div id="outline-container-org684162f" class="outline-4">
+<h4 id="org684162f">Matching value versus applied predicate</h4>
+<div class="outline-text-4" id="text-org684162f">
 <p>
 List functions ending
 </p>
@@ -293,12 +294,12 @@ List functions ending
 </div>
 </div>
 </div>
-<div id="outline-container-org7784bd2" class="outline-2">
-<h2 id="org7784bd2">Helpers</h2>
-<div class="outline-text-2" id="text-org7784bd2">
-</div><div id="outline-container-orgcd2d621" class="outline-3">
-<h3 id="orgcd2d621">Operators</h3>
-<div class="outline-text-3" id="text-orgcd2d621">
+<div id="outline-container-org4f292c2" class="outline-2">
+<h2 id="org4f292c2">Helpers</h2>
+<div class="outline-text-2" id="text-org4f292c2">
+</div><div id="outline-container-org36fa5f1" class="outline-3">
+<h3 id="org36fa5f1">Operators</h3>
+<div class="outline-text-3" id="text-org36fa5f1">
 <p>
 Python does not allow passing operators such as <code>&lt;</code> or <code>+</code> as functions. Instead it provides the operators module which is included here to allow tests to be passed to list functions.
 </p>
@@ -318,9 +319,9 @@ ge = operator.ge
 </div>
 </div>
 </div>
-<div id="outline-container-org74a6f38" class="outline-3">
-<h3 id="org74a6f38">Identity</h3>
-<div class="outline-text-3" id="text-org74a6f38">
+<div id="outline-container-orgdcdb02f" class="outline-3">
+<h3 id="orgdcdb02f">Identity</h3>
+<div class="outline-text-3" id="text-orgdcdb02f">
 <p>
 Python does not have an identity function. Including one is not considered Pythonic and writing one's own is considered the Python way.
 </p>
@@ -332,35 +333,99 @@ Python does not have an identity function. Including one is not considered Pytho
 </div>
 </div>
 </div>
-<div id="outline-container-org9e5cfcb" class="outline-2">
-<h2 id="org9e5cfcb">Non-Destructive</h2>
-<div class="outline-text-2" id="text-org9e5cfcb">
-</div><div id="outline-container-orgaae87c7" class="outline-3">
-<h3 id="orgaae87c7">copy_list</h3>
-<div class="outline-text-3" id="text-orgaae87c7">
+<div id="outline-container-org27676d7" class="outline-2">
+<h2 id="org27676d7">Non-Destructive</h2>
+<div class="outline-text-2" id="text-org27676d7">
+</div><div id="outline-container-org7df8f3b" class="outline-3">
+<h3 id="org7df8f3b">copy_list</h3>
+<div class="outline-text-3" id="text-org7df8f3b">
 <p>
 To me, <code>copy-list</code> is where the idea of Common Lisp as a language for users really hit home. There were many idioms for copying a list in other lisp dialects. By abstracting over those, <code>copy-list</code> provides an explicit mechanism for users to express an intent to bypass destructive semantics.
 </p>
 <div class="org-src-container">
-<pre class="src src-python" id="org9884024">def copy_list(ls):
+<pre class="src src-python" id="orgec1fe5b">def copy_list(ls):
     return [i for i in ls]
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd564fdd" class="outline-3">
-<h3 id="orgd564fdd">remove</h3>
-<div class="outline-text-3" id="text-orgd564fdd">
+<div id="outline-container-orga9e958b" class="outline-3">
+<h3 id="orga9e958b">local_iterate</h3>
+<div class="outline-text-3" id="text-orga9e958b">
+<p>
+This is a function designed to work as a local closure within other functions. It replaces list comprehensions in order to implement the <code>count</code> property.
+</p>
 <div class="org-src-container">
-<pre class="src src-python">def remove(item, sequence, from_end=False, test=identity, test_not=False, start=False, end=False, count=False, key=identity):
-    return [i for i in sequence if not test(key(i)) == item]
+<pre class="src src-python" id="orge8b5d29">def iterate():
+    c = 0
+    ret = []
+    for i in seq:
+        if c &lt; count:
+            if test(key(i),item):
+                c += 1
+            else:
+                ret += [i]
+        else:
+            ret += [i]
+    return ret
+</pre>
+</div>
+<p>
+The version when <code>test_not</code> is <code>True</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-python" id="org8051e1c">def iterate():
+    c = 0
+    ret = []
+    for i in seq:
+        if c &lt; count:
+            if not test(key(i),item):
+                c += 1
+            else:
+                ret += [i]
+        else:
+            ret += [i]
+    return ret
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org9621d84" class="outline-3">
-<h3 id="org9621d84">remove_if</h3>
-<div class="outline-text-3" id="text-org9621d84">
+<div id="outline-container-orge5e4ea1" class="outline-3">
+<h3 id="orge5e4ea1">remove</h3>
+<div class="outline-text-3" id="text-orge5e4ea1">
+<div class="org-src-container">
+<pre class="src src-python">def remove(item, sequence, from_end=False, test=equal, test_not=False, start=0, end=False, count=False, key=identity):
+    # make a copy of the sequence for local mutation
+    seq = copy_list(sequence)
+    # if no end is specified, use the end of seq
+    if not end:
+        end = len(seq) - 1
+    # chop the sequence before possible reversing    
+    seq = seq[start:end]
+    # reverse the target sequence if requested
+    if from_end:
+        seq = seq.reverse()
+    # If there's no count, let it be seq length
+    if not count:
+        count = len(seq)
+
+    # Add the iterate closure
+    &lt;&lt;local_iterate&gt;&gt;
+    # Add iterate_not closure
+    &lt;&lt;local_iterate_not&gt;&gt;
+
+    # Main logic
+    if test_not:
+        return iterate()
+    else:
+        return iterate_not()
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org8e03611" class="outline-3">
+<h3 id="org8e03611">remove_if</h3>
+<div class="outline-text-3" id="text-org8e03611">
 <div class="org-src-container">
 <pre class="src src-python">def remove_if(pred, seq):
     return [i for i in pred if not pred(i)]
@@ -372,7 +437,7 @@ To me, <code>copy-list</code> is where the idea of Common Lisp as a language for
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: benrudgers</p>
-<p class="date">Created: 2017-03-12 Sun 18:51</p>
+<p class="date">Created: 2017-03-12 Sun 21:25</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
