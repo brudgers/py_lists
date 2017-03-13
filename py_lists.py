@@ -16,27 +16,27 @@ def identity(x):
 def copy_list(ls):
     return [i for i in ls]
 
-def remove(item, sequence, from_end=False, test=equal, test_not=False, start=0, end=False, count=False, key=identity):
+def remove(item, sequence, from_end=False, test=equal, test_not=False, start=None, end=None, count=False, key=identity):
     # make a copy of the sequence for local mutation
     seq = copy_list(sequence)
-    # if no end is specified, use the end of seq
-    if not end:
-        end = len(seq) - 1
     # chop the sequence before possible reversing    
     seq = seq[start:end]
     # reverse the target sequence if requested
     if from_end:
         seq = seq.reverse()
+
     # If there's no count, let it be seq length
     if not count:
-        count = len(seq)
+        _count = len(seq)
+    else:
+        _count = count
 
     # Add the iterate closure
     def iterate():
         c = 0
         ret = []
         for i in seq:
-            if c < count:
+            if c < _count:
                 if test(key(i),item):
                     c += 1
                 else:
@@ -45,11 +45,11 @@ def remove(item, sequence, from_end=False, test=equal, test_not=False, start=0, 
                 ret += [i]
         return ret
     # Add iterate_not closure
-    def iterate():
+    def iterate_not():
         c = 0
         ret = []
         for i in seq:
-            if c < count:
+            if c < _count:
                 if not test(key(i),item):
                     c += 1
                 else:
@@ -59,7 +59,7 @@ def remove(item, sequence, from_end=False, test=equal, test_not=False, start=0, 
         return ret
 
     # Main logic
-    if test_not:
+    if not test_not:
         return iterate()
     else:
         return iterate_not()
