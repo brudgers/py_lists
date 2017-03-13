@@ -17,10 +17,11 @@ def copy_list(ls):
     return [i for i in ls]
 
 def remove(item, sequence, from_end=False, test=equal, test_not=False, start=None, end=None, count=False, key=identity):
+
     # make a copy of the sequence for local mutation
-    seq = copy_list(sequence)
-    # chop the sequence before possible reversing    
-    seq = seq[start:end]
+    # and cut to length
+    seq = copy_list(sequence)[start:end]
+
     # reverse the target sequence if requested
     if from_end:
         seq = seq.reverse()
@@ -44,6 +45,7 @@ def remove(item, sequence, from_end=False, test=equal, test_not=False, start=Non
             else:
                 ret += [i]
         return ret
+
     # Add iterate_not closure
     def iterate_not():
         c = 0
