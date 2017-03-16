@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2017-03-16 Thu 15:51 -->
+<!-- 2017-03-16 Thu 17:19 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title></title>
@@ -232,45 +232,45 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org3e99bc5">Introduction</a>
+<li><a href="#orgb984b86">Introduction</a>
 <ul>
-<li><a href="#org29178c8">Basic Semantics</a>
+<li><a href="#org3cba5f9">Basic Semantics</a>
 <ul>
-<li><a href="#orgd51142d">Destructive versus Non-Destructive</a></li>
-<li><a href="#org3084ba2">Matching value versus applied predicate</a></li>
+<li><a href="#org3bd728d">Destructive versus Non-Destructive</a></li>
+<li><a href="#orga2246df">Matching value versus applied predicate</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org47dd933">Definition</a>
+<li><a href="#orge276f40">Definition</a>
 <ul>
-<li><a href="#orga4cb6d8">Helpers</a></li>
-<li><a href="#orgdf3c000">Operators</a></li>
-<li><a href="#org907e2b2">Identity</a></li>
+<li><a href="#org767caf1">Helpers</a></li>
+<li><a href="#orgb2f87c7">Operators</a></li>
+<li><a href="#org4b9554c">Identity</a></li>
 </ul>
 </li>
-<li><a href="#org9c7af56">List Basics</a>
+<li><a href="#org14f95fd">List Basics</a>
 <ul>
-<li><a href="#org8a03b8b">cons</a></li>
-<li><a href="#org324d313">first</a></li>
-<li><a href="#org1849b54">rest</a></li>
-<li><a href="#org8664da5">list_append</a></li>
+<li><a href="#orga1e92dc">cons</a></li>
+<li><a href="#org7ee4753">first</a></li>
+<li><a href="#org5fab7f7">rest</a></li>
+<li><a href="#org4252e34">list_append</a></li>
 </ul>
 </li>
-<li><a href="#org75fda3a">Non-Destructive</a>
+<li><a href="#org264a0e6">Non-Destructive</a>
 <ul>
-<li><a href="#org4e48c1d">copy_list</a></li>
-<li><a href="#orgf8d997c">local_iterate</a></li>
-<li><a href="#orga5dad47">remove</a></li>
-<li><a href="#orgd3372ae">remove_if</a></li>
+<li><a href="#org87008fc">copy_list</a></li>
+<li><a href="#orgf44728a">local_iterate</a></li>
+<li><a href="#orga6b090e">remove</a></li>
+<li><a href="#org65c97f9">remove_if</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org3e99bc5" class="outline-2">
-<h2 id="org3e99bc5">Introduction</h2>
-<div class="outline-text-2" id="text-org3e99bc5">
+<div id="outline-container-orgb984b86" class="outline-2">
+<h2 id="orgb984b86">Introduction</h2>
+<div class="outline-text-2" id="text-orgb984b86">
 <p>
 As I read Steele's <i>Common Lisp: The Language</i> I had a strong sense of the way in which Common Lisp was developed in the context of Lisp machines. It makes for an interesting way of thinking about computing languages: as a way of using the computer rather than as a means for writing programs. The parallel I've been drawing is with Emacs Lisp primarily as a way of editing text (rather than writing programs).
 </p>
@@ -287,15 +287,15 @@ As I dug deeper into the <i>Common Lisp: The Language</i> the consistent constru
 The idea of data structures such as <code>list</code> or <code>sequence</code> living in user space feels radical today. But it seems simply a byproduct of decades of WIMP dominance &#x2013; years of familiarity and <i>ad hockery</i> means Bash pipes or Perl regex's feel normal parts of user space.
 </p>
 </div>
-<div id="outline-container-org29178c8" class="outline-3">
-<h3 id="org29178c8">Basic Semantics</h3>
-<div class="outline-text-3" id="text-org29178c8">
-</div><div id="outline-container-orgd51142d" class="outline-4">
-<h4 id="orgd51142d">Destructive versus Non-Destructive</h4>
+<div id="outline-container-org3cba5f9" class="outline-3">
+<h3 id="org3cba5f9">Basic Semantics</h3>
+<div class="outline-text-3" id="text-org3cba5f9">
+</div><div id="outline-container-org3bd728d" class="outline-4">
+<h4 id="org3bd728d">Destructive versus Non-Destructive</h4>
 </div>
-<div id="outline-container-org3084ba2" class="outline-4">
-<h4 id="org3084ba2">Matching value versus applied predicate</h4>
-<div class="outline-text-4" id="text-org3084ba2">
+<div id="outline-container-orga2246df" class="outline-4">
+<h4 id="orga2246df">Matching value versus applied predicate</h4>
+<div class="outline-text-4" id="text-orga2246df">
 <p>
 List functions ending
 </p>
@@ -303,11 +303,11 @@ List functions ending
 </div>
 </div>
 </div>
-<div id="outline-container-org47dd933" class="outline-2">
-<h2 id="org47dd933">Definition</h2>
-<div class="outline-text-2" id="text-org47dd933">
+<div id="outline-container-orge276f40" class="outline-2">
+<h2 id="orge276f40">Definition</h2>
+<div class="outline-text-2" id="text-orge276f40">
 <div class="org-src-container">
-<pre class="src src-python" id="orga7b44e9">&lt;&lt;list-append-import&gt;&gt;
+<pre class="src src-python" id="org2e6befd">&lt;&lt;list-append-import&gt;&gt;
 &lt;&lt;operators-import&gt;&gt;
 
 # Helpers
@@ -334,21 +334,21 @@ List functions ending
 </pre>
 </div>
 </div>
-<div id="outline-container-orga4cb6d8" class="outline-3">
-<h3 id="orga4cb6d8">Helpers</h3>
+<div id="outline-container-org767caf1" class="outline-3">
+<h3 id="org767caf1">Helpers</h3>
 </div>
-<div id="outline-container-orgdf3c000" class="outline-3">
-<h3 id="orgdf3c000">Operators</h3>
-<div class="outline-text-3" id="text-orgdf3c000">
+<div id="outline-container-orgb2f87c7" class="outline-3">
+<h3 id="orgb2f87c7">Operators</h3>
+<div class="outline-text-3" id="text-orgb2f87c7">
 <p>
 Python does not allow passing operators such as <code>&lt;</code> or <code>+</code> as functions. Instead it provides the operators module which is included here to allow tests to be passed to list functions.
 </p>
 <div class="org-src-container">
-<pre class="src src-python" id="org0307d62">import operator
+<pre class="src src-python" id="orgdbce2f2">import operator
 </pre>
 </div>
 <div class="org-src-container">
-<pre class="src src-python" id="orgaccdd72">less_than = operator.lt
+<pre class="src src-python" id="org874144b">less_than = operator.lt
 lt = operator.lt
 less_than_or_equal = operator.le
 le = operator.le
@@ -362,31 +362,31 @@ ge = operator.ge
 </div>
 </div>
 </div>
-<div id="outline-container-org907e2b2" class="outline-3">
-<h3 id="org907e2b2">Identity</h3>
-<div class="outline-text-3" id="text-org907e2b2">
+<div id="outline-container-org4b9554c" class="outline-3">
+<h3 id="org4b9554c">Identity</h3>
+<div class="outline-text-3" id="text-org4b9554c">
 <p>
 Python does not have an identity function. Including one is not considered Pythonic and writing one's own is considered the Python way.
 </p>
 <div class="org-src-container">
-<pre class="src src-python" id="orgc9d7ca9">def identity(x):
+<pre class="src src-python" id="org1893972">def identity(x):
     return x
 </pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-org9c7af56" class="outline-2">
-<h2 id="org9c7af56">List Basics</h2>
-<div class="outline-text-2" id="text-org9c7af56">
-</div><div id="outline-container-org8a03b8b" class="outline-3">
-<h3 id="org8a03b8b">cons</h3>
-<div class="outline-text-3" id="text-org8a03b8b">
+<div id="outline-container-org14f95fd" class="outline-2">
+<h2 id="org14f95fd">List Basics</h2>
+<div class="outline-text-2" id="text-org14f95fd">
+</div><div id="outline-container-orga1e92dc" class="outline-3">
+<h3 id="orga1e92dc">cons</h3>
+<div class="outline-text-3" id="text-orga1e92dc">
 <p>
 Where to start but with <code>cons</code>. It's not that Python doesn't have the ability to add to lists, it's just that trying to translate from front to rear addition is probably not the best place to start.
 </p>
 <div class="org-src-container">
-<pre class="src src-python" id="org4ea909d">def cons (element, a_list):
+<pre class="src src-python" id="org04199a5">def cons (element, a_list):
     """
     Adds an elment to the *front* of a_list.
     If a_list is not a list, cons creates a list of one element holding a_list.
@@ -400,11 +400,11 @@ Where to start but with <code>cons</code>. It's not that Python doesn't have the
 </div>
 </div>
 </div>
-<div id="outline-container-org324d313" class="outline-3">
-<h3 id="org324d313">first</h3>
-<div class="outline-text-3" id="text-org324d313">
+<div id="outline-container-org7ee4753" class="outline-3">
+<h3 id="org7ee4753">first</h3>
+<div class="outline-text-3" id="text-org7ee4753">
 <div class="org-src-container">
-<pre class="src src-python" id="org3bc90ee">def first(a_list):
+<pre class="src src-python" id="orgc702804">def first(a_list):
     """
     Returns the first elment of a list.
     Returns False if the list is empty.
@@ -417,11 +417,11 @@ Where to start but with <code>cons</code>. It's not that Python doesn't have the
 </div>
 </div>
 </div>
-<div id="outline-container-org1849b54" class="outline-3">
-<h3 id="org1849b54">rest</h3>
-<div class="outline-text-3" id="text-org1849b54">
+<div id="outline-container-org5fab7f7" class="outline-3">
+<h3 id="org5fab7f7">rest</h3>
+<div class="outline-text-3" id="text-org5fab7f7">
 <div class="org-src-container">
-<pre class="src src-python" id="org17320f8">def rest(a_list):
+<pre class="src src-python" id="org7efc293">def rest(a_list):
     """
     Returns a list minus its first elment.
     Returns false if list is empty.
@@ -437,9 +437,9 @@ Where to start but with <code>cons</code>. It's not that Python doesn't have the
 </div>
 </div>
 </div>
-<div id="outline-container-org8664da5" class="outline-3">
-<h3 id="org8664da5">list_append</h3>
-<div class="outline-text-3" id="text-org8664da5">
+<div id="outline-container-org4252e34" class="outline-3">
+<h3 id="org4252e34">list_append</h3>
+<div class="outline-text-3" id="text-org4252e34">
 <p>
 This is a rewrite of an earlier version that was written for gps_py that only took two lists. Python already has an <code>append</code> function.
 </p>
@@ -449,41 +449,41 @@ This is a rewrite of an earlier version that was written for gps_py that only to
 </pre>
 </div>
 <div class="org-src-container">
-<pre class="src src-python" id="org52c0757">from functools import reduce as reduce
+<pre class="src src-python" id="org67c57fe">from functools import reduce as reduce
 </pre>
 </div>
 <div class="org-src-container">
-<pre class="src src-python" id="org4a57887">def list_append(*args):
+<pre class="src src-python" id="org1ee0853">def list_append(*args):
     return reduce(list.__add__, args)
 </pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-org75fda3a" class="outline-2">
-<h2 id="org75fda3a">Non-Destructive</h2>
-<div class="outline-text-2" id="text-org75fda3a">
-</div><div id="outline-container-org4e48c1d" class="outline-3">
-<h3 id="org4e48c1d">copy_list</h3>
-<div class="outline-text-3" id="text-org4e48c1d">
+<div id="outline-container-org264a0e6" class="outline-2">
+<h2 id="org264a0e6">Non-Destructive</h2>
+<div class="outline-text-2" id="text-org264a0e6">
+</div><div id="outline-container-org87008fc" class="outline-3">
+<h3 id="org87008fc">copy_list</h3>
+<div class="outline-text-3" id="text-org87008fc">
 <p>
 To me, <code>copy-list</code> is where the idea of Common Lisp as a language for users really hit home. There were many idioms for copying a list in other lisp dialects. By abstracting over those, <code>copy-list</code> provides an explicit mechanism for users to express an intent to bypass destructive semantics.
 </p>
 <div class="org-src-container">
-<pre class="src src-python" id="org8821212">def copy_list(ls):
+<pre class="src src-python" id="org96bfebf">def copy_list(ls):
     return [i for i in ls]
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgf8d997c" class="outline-3">
-<h3 id="orgf8d997c">local_iterate</h3>
-<div class="outline-text-3" id="text-orgf8d997c">
+<div id="outline-container-orgf44728a" class="outline-3">
+<h3 id="orgf44728a">local_iterate</h3>
+<div class="outline-text-3" id="text-orgf44728a">
 <p>
 This is a function designed to work as a local closure within other functions. It replaces list comprehensions in order to implement the <code>_count</code> property.
 </p>
 <div class="org-src-container">
-<pre class="src src-python" id="org0a6adde">def iterate():
+<pre class="src src-python" id="org61b2b9d">def iterate():
     c = 0
     ret = []
     for i in seq:
@@ -501,7 +501,7 @@ This is a function designed to work as a local closure within other functions. I
 The version when <code>test_not</code> is <code>True</code>.
 </p>
 <div class="org-src-container">
-<pre class="src src-python" id="org51985ea">def iterate_not():
+<pre class="src src-python" id="orgaa39514">def iterate_not():
     c = 0
     ret = []
     for i in seq:
@@ -517,11 +517,24 @@ The version when <code>test_not</code> is <code>True</code>.
 </div>
 </div>
 </div>
-<div id="outline-container-orga5dad47" class="outline-3">
-<h3 id="orga5dad47">remove</h3>
-<div class="outline-text-3" id="text-orga5dad47">
+<div id="outline-container-orga6b090e" class="outline-3">
+<h3 id="orga6b090e">remove</h3>
+<div class="outline-text-3" id="text-orga6b090e">
 <div class="org-src-container">
-<pre class="src src-python" id="org952693b">def remove(item, sequence, from_end=False, test=equal, test_not=False, start=None, end=None, count=False, key=identity):
+<pre class="src src-python" id="org239781b">def remove(item, sequence, from_end=False, test=equal, test_not=False, start=None, end=None, count=False, key=identity):
+
+    # chop the front off the sequence if only
+    # using part of it
+    if start:
+        front = sequence[:start]
+    else:
+        front = []
+    # chop the rear off the sequence if only
+    # using part of it
+    if end:
+        rear = sequence[rear:]
+    else:
+        rear = []
 
     # make a copy of the sequence for local mutation
     # and cut to length
@@ -545,16 +558,24 @@ The version when <code>test_not</code> is <code>True</code>.
 
     # Main logic
     if not test_not:
-        return iterate()
+        middle = iterate()
+        # return values in the same order
+        if from_end:
+            middle.reverse()
+        return list_append(front,middle,rear)
     else:
-        return iterate_not()
+        middle = iterate_not()
+        # return values in the same order        
+        if from_end:
+            middle.reverse()
+        return list_append(front,middle,rear)
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd3372ae" class="outline-3">
-<h3 id="orgd3372ae">remove_if</h3>
-<div class="outline-text-3" id="text-orgd3372ae">
+<div id="outline-container-org65c97f9" class="outline-3">
+<h3 id="org65c97f9">remove_if</h3>
+<div class="outline-text-3" id="text-org65c97f9">
 <div class="org-src-container">
 <pre class="src src-python">def remove_if(pred, seq):
     return [i for i in pred if not pred(i)]
@@ -566,7 +587,7 @@ The version when <code>test_not</code> is <code>True</code>.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: benrudgers</p>
-<p class="date">Created: 2017-03-16 Thu 15:51</p>
+<p class="date">Created: 2017-03-16 Thu 17:19</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

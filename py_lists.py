@@ -63,6 +63,19 @@ def copy_list(ls):
 
 def remove(item, sequence, from_end=False, test=equal, test_not=False, start=None, end=None, count=False, key=identity):
 
+    # chop the front off the sequence if only
+    # using part of it
+    if start:
+        front = sequence[:start]
+    else:
+        front = []
+    # chop the rear off the sequence if only
+    # using part of it
+    if end:
+        rear = sequence[rear:]
+    else:
+        rear = []
+
     # make a copy of the sequence for local mutation
     # and cut to length
     seq = copy_list(sequence)[start:end]
@@ -96,6 +109,14 @@ def remove(item, sequence, from_end=False, test=equal, test_not=False, start=Non
 
     # Main logic
     if not test_not:
-        return iterate()
+        middle = iterate()
+        # return values in the same order
+        if from_end:
+            middle.reverse()
+        return list_append(front,middle,rear)
     else:
-        return iterate_not()
+        middle = iterate_not()
+        # return values in the same order        
+        if from_end:
+            middle.reverse()
+        return list_append(front,middle,rear)
