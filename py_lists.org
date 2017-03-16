@@ -1,4 +1,4 @@
-#+PROPERTY: header-args  :tangle yes
+#+PROPERTY: header-args  :tangle no
 #+OPTIONS: num:nil ^:{}
 * Introduction
 As I read Steele's /Common Lisp: The Language/ I had a strong sense of the way in which Common Lisp was developed in the context of Lisp machines. It makes for an interesting way of thinking about computing languages: as a way of using the computer rather than as a means for writing programs. The parallel I've been drawing is with Emacs Lisp primarily as a way of editing text (rather than writing programs).
@@ -12,11 +12,43 @@ The idea of data structures such as =list= or =sequence= living in user space fe
 *** Destructive versus Non-Destructive
 *** Matching value versus applied predicate
 List functions ending
-* Helpers
+* Definition
+#+NAME: py_lists
+#+BEGIN_SRC python :tangle yes :noweb tangle
+  <<list-append-import>>
+  <<operators-import>>
+
+  # Helpers
+
+  <<identity>>
+
+  <<operators>>
+
+  # List Basics
+
+  <<cons>>
+
+  <<first>>
+
+  <<rest>>
+
+  <<list-append>>
+
+  # Non Destructive List functions
+
+  <<copy-list>>
+
+  <<remove>>
+#+END_SRC
+** Helpers
 ** Operators
 Python does not allow passing operators such as =<= or =+= as functions. Instead it provides the operators module which is included here to allow tests to be passed to list functions.
+#+NAME: operators-import
 #+BEGIN_SRC python
   import operator
+#+END_SRC
+#+NAME: operators
+#+BEGIN_SRC python
   less_than = operator.lt
   lt = operator.lt
   less_than_or_equal = operator.le
@@ -30,21 +62,82 @@ Python does not allow passing operators such as =<= or =+= as functions. Instead
 #+END_SRC
 ** Identity
 Python does not have an identity function. Including one is not considered Pythonic and writing one's own is considered the Python way.
+#+NAME: identity
 #+BEGIN_SRC python
   def identity(x):
       return x
 #+END_SRC
+* List Basics
+** cons
+Where to start but with =cons=. It's not that Python doesn't have the ability to add to lists, it's just that trying to translate from front to rear addition is probably not the best place to start.
+#+NAME: cons
+#+BEGIN_SRC python :session yes :results none
+  def cons (element, a_list):
+      """
+      Adds an elment to the *front* of a_list.
+      If a_list is not a list, cons creates a list of one element holding a_list.
+      """
+      if not type(a_list) == list:
+          a_list = [a_list]
+      a = [element]
+      a.extend(a_list)
+      return a
+#+END_SRC
+** first
+#+NAME: first
+#+BEGIN_SRC python :session :results output silent
+  def first(a_list):
+      """
+      Returns the first elment of a list.
+      Returns False if the list is empty.
+      """
+      if len(a_list)==0:
+          return False
+      else:
+          return a_list[0]
+#+END_SRC
+** rest
+#+NAME: rest
+#+BEGIN_SRC python :session :results output silent
+  def rest(a_list):
+      """
+      Returns a list minus its first elment.
+      Returns false if list is empty.
+      Returns the empty list if list has one element.
+      """
+      if len(a_list)==0:
+          return False
+      elif len(a_list)==1:
+          return []
+      else:
+          return a_list[1:]
+#+END_SRC
+** list_append
+This is a rewrite of an earlier version that was written for gps_py that only took two lists. Python already has an =append= function.
+#+BEGIN_SRC python :results none :tangle no
+  def list_append(list_1, list_2):
+      return list_1 + list_2
+#+END_SRC
+#+NAME: list-append-import
+#+BEGIN_SRC python
+  from functools import reduce as reduce
+#+END_SRC
+#+NAME: list-append
+#+BEGIN_SRC python
+  def list_append(*args):
+      return reduce(list.__add__, args)
+#+END_SRC
 * Non-Destructive
 ** copy_list
 To me, =copy-list= is where the idea of Common Lisp as a language for users really hit home. There were many idioms for copying a list in other lisp dialects. By abstracting over those, =copy-list= provides an explicit mechanism for users to express an intent to bypass destructive semantics.
-#+NAME: copy_list
+#+NAME: copy-list
 #+BEGIN_SRC python
   def copy_list(ls):
       return [i for i in ls]
 #+END_SRC
 ** local_iterate
 This is a function designed to work as a local closure within other functions. It replaces list comprehensions in order to implement the =_count= property.
-#+NAME: local_iterate
+#+NAME: local-iterate
 #+BEGIN_SRC python :tangle no
   def iterate():
       c = 0
@@ -60,7 +153,7 @@ This is a function designed to work as a local closure within other functions. I
       return ret
 #+END_SRC
 The version when =test_not= is =True=.
-#+NAME: local_iterate_not
+#+NAME: local-iterate-not
 #+BEGIN_SRC python :tangle no
   def iterate_not():
       c = 0
@@ -76,6 +169,7 @@ The version when =test_not= is =True=.
       return ret
 #+END_SRC
 ** remove
+#+NAME: remove
 #+BEGIN_SRC python :noweb tangle
   def remove(item, sequence, from_end=False, test=equal, test_not=False, start=None, end=None, count=False, key=identity):
 
@@ -94,10 +188,10 @@ The version when =test_not= is =True=.
           _count = count
 
       # Add the iterate closure
-      <<local_iterate>>
+      <<local-iterate>>
 
       # Add iterate_not closure
-      <<local_iterate_not>>
+      <<local-terate-not>>
 
       # Main logic
       if not test_not:
